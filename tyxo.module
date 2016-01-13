@@ -1,0 +1,54 @@
+<?php
+
+/**
+ * @file
+ * Drupal Module: TYXO
+ * @author: Yonko Cvetkov <http://drupal.org/user/192980>
+ */
+
+/**
+ * Implements hook_permission().
+ */
+function tyxo_permission() {
+  return array(
+    'administer tyxo' => array(
+      'title' => t('Administer Tyxo'),
+    ),
+  );
+}
+
+/**
+ * Implements hook_menu().
+ */
+function tyxo_menu() {
+  $items['admin/config/system/tyxo'] = array(
+    'title' => 'Tyxo settings',
+    'description' =>  'Tyxo settings',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('tyxo_admin_settings'),
+    'access arguments' => array('administer tyxo'),
+  );
+  return $items;
+}
+
+/**
+ * Form builder; Configure the TYXO Site ID.
+ *
+ * @see system_settings_form()
+ */
+function tyxo_admin_settings() {
+  $form['tyxo_site_id'] = array(
+    '#type' => 'textfield',
+    '#title' => t('TYXO Site ID'),
+    '#default_value' => variable_get('tyxo_site_id'),
+    '#description' => t('Insert your TYXO Site ID (http://www.tyxo.bg/settings/(TYXO Site ID)/edit_site)'),
+  );
+  return system_settings_form($form);
+}
+if (variable_get('tyxo_site_id') != "") {
+  drupal_add_js('d=document;d.write("<div class=\"tyxo\"><a href=\"https://www.tyxo.bg/?' . variable_get('tyxo_site_id') . '\" title=\"Tyxo.bg counter\"><img border=\"0\" alt=\"Tyxo.bg counter\" src="+location.protocol+"//cnt.tyxo.bg/' . variable_get('tyxo_site_id') . '?rnd="+Math.round(Math.random()*2147483647));
+d.write("&sp="+screen.width+"x"+screen.height+"&r="+escape(d.referrer)+"></a></div>");',
+  array('type' => 'inline', 'scope' => 'footer', 'weight' => 5)
+  );
+
+}

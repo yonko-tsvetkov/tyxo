@@ -1,0 +1,3 @@
+name = Tyxo
+description = Integration of the popular Bulgarian web counter statistic.
+core = 7.x

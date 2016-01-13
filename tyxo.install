@@ -1,0 +1,13 @@
+<?php
+
+/**
+ * @file
+ * uninstall function for the tyxo module.
+ */
+
+/**
+ * Implements hook_uninstall().
+ */
+function tyxo_uninstall() {
+  variable_del('tyxo_site_id');
+}
